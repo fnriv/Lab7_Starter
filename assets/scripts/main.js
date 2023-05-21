@@ -70,6 +70,7 @@ async function getRecipes() {
   //            If there are recipes, return them.
   if (localStorage.getItem("recipes")) {
     if (localStorage.getItem("recipes").length > 0) {
+      console.log('length is greater than 0 ?');
       return localStorage.getItem("recipes");
     }
   }
@@ -107,14 +108,7 @@ async function getRecipes() {
         let recipeJson = await response.json();
         // A8. TODO - Add the new recipe to the recipes array
         fetchRecipes.push(recipeJson);
-        // A9. TODO - Check to see if you have finished retrieving all of the recipes,
-        //            if you have, then save the recipes to storage using the function
-        //            we have provided. Then, pass the recipes array to the Promise's
-        //            resolve() method.   
-        if (fetchRecipes.length == 6) {
-          saveRecipesToStorage(fetchRecipes);
-          resolve(fetchRecipes);
-        }
+         
       } catch (error) {
         // A10. TODO - Log any errors from catch using console.error
         console.error(error);
@@ -122,6 +116,13 @@ async function getRecipes() {
         reject(error);
       }
     }
+    // A9. TODO - Check to see if you have finished retrieving all of the recipes,
+        //            if you have, then save the recipes to storage using the function
+        //            we have provided. Then, pass the recipes array to the Promise's
+        //            resolve() method.  
+    saveRecipesToStorage(fetchRecipes);
+    console.log('saved recipes');
+    resolve(fetchRecipes);
   });
 }
 
