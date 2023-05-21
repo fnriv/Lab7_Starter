@@ -70,8 +70,7 @@ async function getRecipes() {
   //            If there are recipes, return them.
   if (localStorage.getItem("recipes")) {
     if (localStorage.getItem("recipes").length > 0) {
-      console.log('length is greater than 0 ?');
-      return localStorage.getItem("recipes");
+      return JSON.parse(localStorage.getItem("recipes"));
     }
   }
   /**************************/
