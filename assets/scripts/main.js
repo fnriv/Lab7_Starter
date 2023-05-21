@@ -68,8 +68,10 @@ async function getRecipes() {
   // EXPOSE - START (All expose numbers start with A)
   // A1. TODO - Check local storage to see if there are any recipes.
   //            If there are recipes, return them.
-  if (JSON.parse(localStorage.getItem("recipes").length > 0)) {
-    return JSON.parse(localStorage.getItem("recipes"));
+  if (localStorage.getItem("recipes")) {
+    if (localStorage.getItem("recipes").length > 0) {
+      return localStorage.getItem("recipes");
+    }
   }
   /**************************/
   // The rest of this method will be concerned with requesting the recipes
@@ -81,7 +83,7 @@ async function getRecipes() {
   //            function (we call these callback functions). That function will
   //            take two parameters - resolve, and reject. These are functions
   //            you can call to either resolve the Promise or Reject it.
-  let promise = new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     /**************************/
     // A4-A11 will all be *inside* the callback function we passed to the Promise
     // we're returning
@@ -98,6 +100,7 @@ async function getRecipes() {
         //            you must either use "await fetch(...)" or "fetch.then(...)". This
         //            function is using the async keyword so we recommend "await"
         let response = await fetch(RECIPE_URLS[i]);
+        console.log('fetched ' + i);
         // A7. TODO - For each fetch response, retrieve the JSON from it using .json().
         //            NOTE: .json() is ALSO asynchronous, so you will need to use
         //            "await" again
@@ -118,11 +121,7 @@ async function getRecipes() {
         // A11. TODO - Pass any errors to the Promise's reject() function
         reject(error);
       }
-
-      return promise;
     }
-
-
   });
 }
 
